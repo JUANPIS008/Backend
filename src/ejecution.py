@@ -3,7 +3,7 @@ def ejecution_script_sql():
     con = connection()
     cursor = con.cursor()
 
-    with open('../sql/base.sql', 'r', encoding='utf-8') as f:
+    with open('Backend/sql/base.sql', 'r', encoding='utf-8') as f:
         sql_script =f.read()
     
     cursor.executescript(sql_script)
