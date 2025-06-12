@@ -1,10 +1,10 @@
-CREATE TABLE IF NOT EXISTS usuarios(
+CREATE TABLE IF NOT EXISTS usuarios (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     nombre TEXT NOT NULL,
-    cedula TEXT NOT NULL UNIQUE,
-    fecha_nacimiento TEXT NOT NULL,
-    usuario TEXT NOT NULL UNIQUE,
-    contrasena TEXT NOT NULL
+    tipo_identificacion TEXT NOT NULL,
+    numero_identificacion INTEGER NOT NULL UNIQUE,
+    contrasena TEXT NOT NULL,
+    fecha_nacimiento TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS doctores(
