@@ -51,3 +51,19 @@ def registro_citas(usuario_id, horario_id, motivo):
         citas = cursor.fetchall()
         con.close()
         return citas
+    def cancelacion(cita_id):
+        con = connection()
+        cursor = con.cursor()
+        cursor.execute("SELECT horario_id FROM citas WHERE id = ?", (cita_id))
+        horario = cursor.fetchone()
+        if horario:
+            horario_id = horario[0]
+
+            cursor.execute("DELETE FROM citas WHERE id = ?", (cita_id,))
+            cursor.execute("UPDATE horarios SET disponible = 1 WHERE id = ?", (horario_id, ))
+            con.commit()
+            resultado = True
+        else:
+            resultado = False
+        con.close()
+        return resultado
