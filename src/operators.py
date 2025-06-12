@@ -14,3 +14,10 @@ def get_horarios_disponibles():
     resultados = cursor.fetchall()
     con.close()
     return resultados
+def validacion_users():
+    con = connection()
+    cursor = con.cursor()
+    cursor.execute("SELECT FROM * usuarios WHERE numero_identificacion = ? AND contrasena = ?", (numero_identificacion, contrasena))
+    usuario = cursor.fetchone()
+    con.close()
+    return usuario
