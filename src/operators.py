@@ -1,9 +1,9 @@
 from basedDatos import connection
 
-def insertdUsuarios(usuario, contrasena):
+def insertUsuarios(nombre, contrasena, tipo_identificacion, numero_identificacion, fecha_nacimiento):
     connec = connection()
     cursor = connec.cursor()
-    cursor.execute("INSERT INTO usuarios (usuario, contrasena) VALUES (?, ?)", (usuario, contrasena))
+    cursor.execute("INSERT INTO usuarios (nombre, contrasena, tipo_identificacion, numero_identificacion, fecha_nacimiento) VALUES (?, ?, ?, ?, ?)", (nombre, contrasena, tipo_identificacion, numero_identificacion, fecha_nacimiento))
     connec.commit()
     connec.close()
     
