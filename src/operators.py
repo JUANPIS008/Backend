@@ -24,7 +24,7 @@ def validacion_users(numero_identificacion, contrasena):
 def registro_citas(usuario_id, horario_id, motivo):
     con = connection()
     cursor = con.cursor()
-    cursor.execute("SELECT disponible from horarios WHERE id = ?", (horario_id,))
+    cursor.execute("SELECT disponible FROM horarios WHERE id = ?", (horario_id,))
     estado = cursor.fetchone()
     if estado and estado[0] == 1:
         cursor.execute(
@@ -38,3 +38,16 @@ def registro_citas(usuario_id, horario_id, motivo):
         resultado = False 
         con.close()
         return resultado
+    def citas_usuario(usuario_id):
+        con = connection()
+        cursor = con.cursor()
+        cursor.execute(
+            """ 
+            SELECT citas.id, horarios.fecha, horarios.hora, citas.motivo FROM citas 
+            JOIN horarios ON citas.horario_id = horarios.id
+            WHERE citas.usuario_id = ?
+            """, (usuario_id,)
+        )
+        citas = cursor.fetchall()
+        con.close()
+        return citas
