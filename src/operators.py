@@ -14,10 +14,27 @@ def get_horarios_disponibles():
     resultados = cursor.fetchall()
     con.close()
     return resultados
-def validacion_users():
+def validacion_users(numero_identificacion, contrasena):
     con = connection()
     cursor = con.cursor()
     cursor.execute("SELECT FROM * usuarios WHERE numero_identificacion = ? AND contrasena = ?", (numero_identificacion, contrasena))
     usuario = cursor.fetchone()
     con.close()
     return usuario
+def registro_citas(usuario_id, horario_id, motivo):
+    con = connection()
+    cursor = con.cursor()
+    cursor.execute("SELECT disponible from horarios WHERE id = ?", (horario_id,))
+    estado = cursor.fetchone()
+    if estado and estado[0] == 1:
+        cursor.execute(
+            "INSERT INTO citas (usuario_id, horario_id, motivo) VALUES (?, ?, ?)", (usuario_id, horario_id, motivo)
+        
+        )
+        cursor.execute("UPDATE horarios SET disponible = 0 WHERE id = ?", (horario_id,))
+        con.commit()
+        resultado = True
+    else:
+        resultado = False 
+        con.close()
+        return resultado
