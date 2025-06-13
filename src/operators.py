@@ -1,9 +1,9 @@
 from basedDatos import connection
 
-def insertUsuarios(nombre, contrasena, tipo_identificacion, numero_identificacion, fecha_nacimiento):
+def insertUsuarios(nombre, tipo_identificacion, numero_identificacion, contrasena, fecha_nacimiento):
     connec = connection()
     cursor = connec.cursor()
-    cursor.execute("INSERT INTO usuarios (nombre, contrasena, tipo_identificacion, numero_identificacion, fecha_nacimiento) VALUES (?, ?, ?, ?, ?)", (nombre, contrasena, tipo_identificacion, numero_identificacion, fecha_nacimiento))
+    cursor.execute("INSERT INTO usuarios (nombre, tipo_identificacion, numero_identificacion, contrasena, fecha_nacimiento) VALUES (?, ?, ?, ?, ?)", (nombre, tipo_identificacion, numero_identificacion, contrasena, fecha_nacimiento))
     connec.commit()
     connec.close()
     
@@ -14,6 +14,7 @@ def get_horarios_disponibles():
     resultados = cursor.fetchall()
     con.close()
     return resultados
+
 def validacion_users(numero_identificacion, contrasena):
     con = connection()
     cursor = con.cursor()
@@ -21,6 +22,7 @@ def validacion_users(numero_identificacion, contrasena):
     usuario = cursor.fetchone()
     con.close()
     return usuario
+
 def registro_citas(usuario_id, horario_id, motivo):
     con = connection()
     cursor = con.cursor()
@@ -38,7 +40,8 @@ def registro_citas(usuario_id, horario_id, motivo):
         resultado = False 
         con.close()
         return resultado
-    def citas_usuario(usuario_id):
+    
+def citas_usuario(usuario_id):
         con = connection()
         cursor = con.cursor()
         cursor.execute(
@@ -51,7 +54,8 @@ def registro_citas(usuario_id, horario_id, motivo):
         citas = cursor.fetchall()
         con.close()
         return citas
-    def cancelacion(cita_id):
+    
+def cancelacion(cita_id):
         con = connection()
         cursor = con.cursor()
         cursor.execute("SELECT horario_id FROM citas WHERE id = ?", (cita_id))
@@ -67,3 +71,18 @@ def registro_citas(usuario_id, horario_id, motivo):
             resultado = False
         con.close()
         return resultado
+
+def insertar_doctor(nombre, especialidad):
+    try:
+        con = connection()
+        cursor = con.cursor()
+        cursor.execute("""
+            INSERT INTO doctores (nombre, especialidad)
+            VALUES (?, ?)
+        """, (nombre, especialidad))
+        con.commit()
+        con.close()
+        return True
+    except Exception as e:
+        print("Error al insertar doctor:", e)
+        return False
